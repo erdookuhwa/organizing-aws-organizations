@@ -49,7 +49,7 @@ Organization:
     Type: OC::ORG::Account
     Properties:
       AccountName: Production 1 Account
-      RootEmail: prod1-everlygrandest@gmail.com
+      RootEmail: everlygrandest+prod1@gmail.com
       Alias: everly-prod1
       Tags:
         budget-alarm-threshold: '20'
