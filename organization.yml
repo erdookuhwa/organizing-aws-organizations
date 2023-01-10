@@ -1,0 +1,169 @@
+AWSTemplateFormatVersion: '2010-09-09-OC'
+Description: default template generated for organization with master account 030768309160
+
+Organization:
+  ManagementAccount:
+    Type: OC::ORG::MasterAccount
+    Properties:
+      AccountName: everlyscloud
+      AccountId: '030768309160'
+      RootEmail: everlygrandest@gmail.com
+      Alias: everlyscloud
+
+  OrganizationRoot:
+    Type: OC::ORG::OrganizationRoot
+    Properties:
+      ServiceControlPolicies:
+        - !Ref DenyChangeOfOrgRoleSCP
+        - !Ref RestrictUnusedRegionsSCP
+      DefaultOrganizationAccessRoleName: OrganizationAccountAccessRole
+
+  ProductionOU:
+    Type: OC::ORG::OrganizationalUnit
+    Properties:
+      OrganizationalUnitName: Prod
+      Accounts: 
+        - !Ref Prod1account
+        - !Ref Prod2account
+
+  DevelopmentOU:
+    Type: OC::ORG::OrganizationalUnit
+    Properties:
+      OrganizationalUnitName: Dev
+      Accounts:
+        - !Ref Dev1account
+        - !Ref Dev2account
+        - !Ref Dev3account
+
+  SharedOU:
+    Type: OC::ORG::OrganizationalUnit
+    Properties:
+      OrganizationalUnitName: shared
+      Accounts:
+        - !Ref SharedServicesAcct
+        - !Ref SharedComplianceAcct
+        - !Ref SharedUsersAcct
+
+
+  Prod1account:
+    Type: OC::ORG::Account
+    Properties:
+      AccountName: Production 1 Account
+      RootEmail: prod1-everlygrandest@gmail.com
+      Alias: everly-prod1
+      Tags:
+        budget-alarm-threshold: '20'
+        account-owner-email: everlygrandest@gmail.com
+
+  Prod2account:
+    Type: OC::ORG::Account
+    Properties:
+      AccountName: Production 2 Account
+      RootEmail: everlygrandest+prod2@gmail.com
+      Alias: everly-prod2
+      Tags:
+        budget-alarm-threshold: '20'
+        account-owner-email: everlygrandest@gmail.com
+
+  Dev1account:
+    Type: OC::ORG::Account
+    Properties:
+      AccountName: Dev 1 Account
+      RootEmail: dev1-everlygrandest@gmail.com
+      Alias: everly-dev1
+      Tags:
+        budget-alarm-threshold: '5'
+        account-owner-email: everlygrandest@gmail.com
+
+  Dev2account:
+    Type: OC::ORG::Account
+    Properties:
+      AccountName: Dev 2 Account
+      RootEmail: dev2-everlygrandest@gmail.com
+      Alias: everly-dev2
+      Tags:
+        budget-alarm-threshold: '5'
+        account-owner-email: everlygrandest@gmail.com
+
+  Dev3account:
+    Type: OC::ORG::Account
+    Properties:
+      AccountName: Dev 3 Account
+      RootEmail: dev3-everlygrandest@gmail.com
+      Alias: everly-dev3
+      Tags:
+        budget-alarm-threshold: '5'
+        account-owner-email: everlygrandest@gmail.com
+
+  SharedServicesAcct:
+    Type: OC::ORG::Account
+    Properties:
+      AccountName: Shared 1 Account
+      RootEmail: shared1-everlygrandest@gmail.com
+      Alias: everly-shared1
+      Tags:
+        budget-alarm-threshold: '15'
+        account-owner-email: everlygrandest@gmail.com
+
+  SharedComplianceAcct:
+    Type: OC::ORG::Account
+    Properties:
+      AccountName: Shared 2 Account
+      RootEmail: shared2-everlygrandest@gmail.com
+      Alias: everly-shared2
+      Tags:
+        budget-alarm-threshold: '15'
+        account-owner-email: everlygrandest@gmail.com
+
+  SharedUsersAcct:
+    Type: OC::ORG::Account
+    Properties:
+      AccountName: Shared 3 Account
+      RootEmail: shared3-everlygrandest@gmail.com
+      Alias: everly-shared3
+      Tags:
+        budget-alarm-threshold: '15'
+        account-owner-email: everlygrandest@gmail.com
+
+  DenyChangeOfOrgRoleSCP:
+    Type: OC::ORG::ServiceControlPolicy
+    Properties:
+      PolicyName: DenyChangeOfOrgRoleSCP
+      Description: Deny changing the IAM role used for organization access
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: DenyChangeOfOrgRole
+            Effect: Deny
+            Action:
+              - 'iam:Attach*'
+              - 'iam:Create*'
+              - 'iam:Delete*'
+              - 'iam:Detach*'
+              - 'iam:PutRole*'
+              - 'iam:Update*'
+            Resource:
+              - 'arn:aws:iam::*:role/OrganizationAccountAccessRole'
+
+  RestrictUnusedRegionsSCP:
+    Type: OC::ORG::ServiceControlPolicy
+    Properties:
+      PolicyName: RestrictUnusedRegions
+      Description: Restrict Unused regions
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: DenyUnsupportedRegions
+            Effect: Deny
+            NotAction:
+              - 'cloudfront:*'
+              - 'iam:*'
+              - 'route53:*'
+              - 'support:*'
+            Resource: '*'
+            Condition:
+              StringNotEquals:
+                'aws:RequestedRegion':
+                  - us-east-1
+                  - us-west-2
+                  - us-east-2
