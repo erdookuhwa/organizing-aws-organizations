@@ -138,7 +138,6 @@ Organization:
             Action:
               - 'iam:Attach*'
               - 'iam:Create*'
-              - 'iam:Delete*'
               - 'iam:Detach*'
               - 'iam:PutRole*'
               - 'iam:Update*'
