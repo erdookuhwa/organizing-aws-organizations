@@ -1,4 +1,4 @@
-# Organizing AWS Organizations
+# Organizing AWS Organization
 
 I used an IaC tool (org-formation) to create AWS Organization, Organization Units (OUs), and respective Accounts in those OUs.
 
@@ -21,3 +21,14 @@ After an update, you should get an updated message in your terminal similar to t
 Upon completion, in the AWS Console, the AWS Organization Structure is created as shown:
 
 ![image](https://user-images.githubusercontent.com/64602124/211720675-3eca0a42-cb6c-4b6c-91bc-5ec68dda4fbd.png)
+
+### Setting Up SSO
+**_Wojciech Matuszewski_** has a [very good article](https://dev.to/aws-builders/minimal-aws-sso-setup-for-personal-aws-development-220k) detailing how to set up SSO. If you do choose to use `org-formation` like I did, then Steps 1 - 8 is already out the way.
+
+Upon completion of my SSO setup, this is what the start url page looked like:
+
+![image](https://user-images.githubusercontent.com/64602124/211840117-4e10733c-5dcb-46ef-bd4c-8093733e8eee.png)
+
+Clicking on the _Management Console_ takes you to a page like this:
+
+![image](https://user-images.githubusercontent.com/64602124/211840866-47a2fc71-7046-4443-a4a8-ab98be90a4c3.png)
