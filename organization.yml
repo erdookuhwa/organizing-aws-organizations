@@ -14,7 +14,7 @@ Organization:
     Type: OC::ORG::OrganizationRoot
     Properties:
       ServiceControlPolicies:
-        - !Ref DenyChangeOfOrgRoleSCP
+        # - !Ref DenyChangeOfOrgRoleSCP
         - !Ref RestrictUnusedRegionsSCP
       DefaultOrganizationAccessRoleName: OrganizationAccountAccessRole
 
@@ -125,24 +125,24 @@ Organization:
         budget-alarm-threshold: '15'
         account-owner-email: everlygrandest@gmail.com
 
-  DenyChangeOfOrgRoleSCP:
-    Type: OC::ORG::ServiceControlPolicy
-    Properties:
-      PolicyName: DenyChangeOfOrgRoleSCP
-      Description: Deny changing the IAM role used for organization access
-      PolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Sid: DenyChangeOfOrgRole
-            Effect: Deny
-            Action:
-              - 'iam:Attach*'
-              - 'iam:Create*'
-              - 'iam:Detach*'
-              - 'iam:PutRole*'
-              - 'iam:Update*'
-            Resource:
-              - 'arn:aws:iam::*:role/OrganizationAccountAccessRole'
+  # DenyChangeOfOrgRoleSCP:
+  #   Type: OC::ORG::ServiceControlPolicy
+  #   Properties:
+  #     PolicyName: DenyChangeOfOrgRoleSCP
+  #     Description: Deny changing the IAM role used for organization access
+  #     PolicyDocument:
+  #       Version: '2012-10-17'
+  #       Statement:
+  #         - Sid: DenyChangeOfOrgRole
+  #           Effect: Deny
+  #           Action:
+  #             - 'iam:Attach*'
+  #             - 'iam:Create*'
+  #             - 'iam:Detach*'
+  #             - 'iam:PutRole*'
+  #             - 'iam:Update*'
+  #           Resource:
+  #             - 'arn:aws:iam::*:role/OrganizationAccountAccessRole'
 
   RestrictUnusedRegionsSCP:
     Type: OC::ORG::ServiceControlPolicy
