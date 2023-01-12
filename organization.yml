@@ -34,6 +34,7 @@ Organization:
         - !Ref Dev1account
         - !Ref Dev2account
         - !Ref Dev3account
+        - !Ref MainDevAccount
 
   SharedOU:
     Type: OC::ORG::OrganizationalUnit
@@ -93,6 +94,16 @@ Organization:
       Alias: everly-dev3
       Tags:
         budget-alarm-threshold: '5'
+        account-owner-email: everlygrandest@gmail.com
+  
+  MainDevAccount:
+    Type: OC::ORG::Account
+    Properties:
+      AccountName: Main Dev Account
+      RootEmail: everlygrandest+maindev@gmail.com
+      Alias: main-dev
+      Tags:
+        budget-alarm-threshold: '8'
         account-owner-email: everlygrandest@gmail.com
 
   SharedServicesAcct:
